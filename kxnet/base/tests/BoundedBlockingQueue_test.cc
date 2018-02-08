@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <stdio.h>
+#include <unistd.h>
 
 using std::placeholders::_1;
 
@@ -15,7 +16,7 @@ class Test
   Test(int numThreads)
     : queue_(20),
       latch_(numThreads),
-      threads_(numThreads)
+      threads_()
   {
     for (int i = 0; i < numThreads; ++i)
     {

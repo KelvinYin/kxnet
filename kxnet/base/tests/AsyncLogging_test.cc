@@ -3,6 +3,7 @@
 #include <kxnet/base/Timestamp.h>
 
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/resource.h>
 
 int kRollSize = 500*1000*1000;
