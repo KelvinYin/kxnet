@@ -85,3 +85,6 @@ add_executable(timezone_unittest TimeZone_unittest.cc)
 target_link_libraries(timezone_unittest kxnet_base)
 add_test(NAME timezone_unittest COMMAND timezone_unittest)
 
+add_executable(circularbuffer_unittest CircularBuffer_tests.cc)
+target_link_libraries(circularbuffer_unittest kxnet_base)
+add_test(NAME circularbuffer_unittest COMMAND CircularBuffer_unittest)

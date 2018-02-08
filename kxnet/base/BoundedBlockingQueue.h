@@ -2,6 +2,7 @@
 
 #include <kxnet/base/Condition.h>
 #include <kxnet/base/Mutex.h>
+// #include <kxnet/base/CircularBuffer.h>
 
 #include <boost/circular_buffer.hpp>
 #include <assert.h>
@@ -76,6 +77,7 @@ class BoundedBlockingQueue : noncopyable
   Condition                  notEmpty_;
   Condition                  notFull_;
   boost::circular_buffer<T>  queue_;
+  //kxnet::base::circular_buffer<T>  queue_;
 };
 
 }
