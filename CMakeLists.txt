@@ -94,4 +94,5 @@ message(STATUS "CXX_FLAGS = " ${CMAKE_CXX_FLAGS} " " ${CMAKE_CXX_FLAGS_${BUILD_T
 
 add_subdirectory(kxnet/base)
 add_subdirectory(kxnet/net)
+add_subdirectory(kxnet/json)
 
