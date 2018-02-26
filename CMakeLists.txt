@@ -96,4 +96,5 @@ add_subdirectory(kxnet/base)
 add_subdirectory(kxnet/net)
 add_subdirectory(kxnet/json)
 add_subdirectory(kxnet/md5)
+add_subdirectory(kxnet/codec)
 
