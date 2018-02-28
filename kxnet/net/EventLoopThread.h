@@ -25,10 +25,10 @@ class EventLoopThread : noncopyable
   void threadFunc();
 
   EventLoop* loop_;
-  bool exiting_;
-  Thread thread_;
-  MutexLock mutex_;
-  Condition cond_;
+  bool       exiting_;
+  Thread     thread_;
+  MutexLock  mutex_;
+  Condition  cond_;
   ThreadInitCallback callback_;
 };
 

@@ -36,11 +36,11 @@ class Acceptor : noncopyable
   void handleRead();
 
   EventLoop* loop_;
-  Socket acceptSocket_;
-  Channel acceptChannel_;
+  Socket     acceptSocket_;
+  Channel    acceptChannel_;
+  bool       listenning_;
+  int        idleFd_;
   NewConnectionCallback newConnectionCallback_;
-  bool listenning_;
-  int idleFd_;
 };
 
 }

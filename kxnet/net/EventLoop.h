@@ -5,7 +5,7 @@
 #include <functional>
 #include <vector>
 
-// #include <kxnet/base/Any.h>
+#include <kxnet/base/Any.h>
 #include <kxnet/base/Mutex.h>
 #include <kxnet/base/CurrentThread.h>
 #include <kxnet/base/Timestamp.h>
@@ -57,18 +57,15 @@ class EventLoop : noncopyable
   /// It wakes up the loop, and run the cb.
   /// If in the same loop thread, cb is run within the function.
   /// Safe to call from other threads.
+  void runInLoop(Functor&& cb);
   void runInLoop(const Functor& cb);
   /// Queues callback in the loop thread.
   /// Runs after finish pooling.
   /// Safe to call from other threads.
+  void queueInLoop(Functor&& cb);
   void queueInLoop(const Functor& cb);
 
   size_t queueSize() const;
-
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-  void runInLoop(Functor&& cb);
-  void queueInLoop(Functor&& cb);
-#endif
 
   // timers
 
@@ -76,28 +73,22 @@ class EventLoop : noncopyable
   /// Runs callback at 'time'.
   /// Safe to call from other threads.
   ///
-  TimerId runAt(const Timestamp& time, const TimerCallback& cb);
+  TimerId runAt(const Timestamp& time, TimerCallback&& cb);
   ///
   /// Runs callback after @c delay seconds.
   /// Safe to call from other threads.
   ///
-  TimerId runAfter(double delay, const TimerCallback& cb);
+  TimerId runAfter(double delay, TimerCallback&& cb);
   ///
   /// Runs callback every @c interval seconds.
   /// Safe to call from other threads.
   ///
-  TimerId runEvery(double interval, const TimerCallback& cb);
+  TimerId runEvery(double interval, TimerCallback&& cb);
   ///
   /// Cancels the timer.
   /// Safe to call from other threads.
   ///
   void cancel(TimerId timerId);
-
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-  TimerId runAt(const Timestamp& time, TimerCallback&& cb);
-  TimerId runAfter(double delay, TimerCallback&& cb);
-  TimerId runEvery(double interval, TimerCallback&& cb);
-#endif
 
   // internal usage
   void wakeup();
@@ -117,14 +108,14 @@ class EventLoop : noncopyable
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
   bool eventHandling() const { return eventHandling_; }
 
-  // void setContext(const kxnet::base::Any& context)
-  // { context_ = context; }
+   void setContext(const kxnet::base::Any& context)
+   { context_ = context; }
 
-  // const kxnet::base::Any& getContext() const
-  // { return context_; }
+   const kxnet::base::Any& getContext() const
+   { return context_; }
 
-  // kxnet::base::Any* getMutableContext()
-  // { return &context_; }
+   kxnet::base::Any* getMutableContext()
+   { return &context_; }
 
   static EventLoop* getEventLoopOfCurrentThread();
 
@@ -137,9 +128,9 @@ class EventLoop : noncopyable
 
   typedef std::vector<Channel*> ChannelList;
 
-  bool looping_; /* atomic */
-  bool quit_; /* atomic and shared between threads, okay on x86, I guess. */
-  bool eventHandling_; /* atomic */
+  bool looping_;                /* atomic */
+  bool quit_;                   /* atomic and shared between threads, okay on x86, I guess. */
+  bool eventHandling_;          /* atomic */
   bool callingPendingFunctors_; /* atomic */
   int64_t iteration_;
   const pid_t threadId_;
@@ -150,7 +141,7 @@ class EventLoop : noncopyable
   // unlike in TimerQueue, which is an internal class,
   // we don't expose Channel to client.
   std::unique_ptr<Channel> wakeupChannel_;
-  // kxnet::base::Any context_;
+  kxnet::base::Any context_;
 
   // scratch variables
   ChannelList activeChannels_;

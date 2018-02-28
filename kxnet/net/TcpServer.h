@@ -39,8 +39,8 @@ class TcpServer : noncopyable
   ~TcpServer();  // force out-line dtor, for std::unique_ptr members.
 
   const string& ipPort() const { return ipPort_; }
-  const string& name() const { return name_; }
-  EventLoop* getLoop() const { return loop_; }
+  const string& name()   const { return name_; }
+  EventLoop* getLoop()   const { return loop_; }
 
   /// Set the number of threads for handling input.
   ///
@@ -88,18 +88,19 @@ class TcpServer : noncopyable
   /// Not thread safe, but in loop
   void removeConnectionInLoop(const TcpConnectionPtr& conn);
 
+  /// std::map<name, shared_prt<TcpConnection>>
   typedef std::map<string, TcpConnectionPtr> ConnectionMap;
 
-  EventLoop* loop_;  // the acceptor loop
+  EventLoop* loop_; // the acceptor loop
   const string ipPort_;
   const string name_;
-  std::unique_ptr<Acceptor> acceptor_; // avoid revealing Acceptor
+  std::unique_ptr<Acceptor>            acceptor_; // avoid revealing Acceptor
   std::shared_ptr<EventLoopThreadPool> threadPool_;
-  ConnectionCallback connectionCallback_;
-  MessageCallback messageCallback_;
-  WriteCompleteCallback writeCompleteCallback_;
-  ThreadInitCallback threadInitCallback_;
-  AtomicInt32 started_;
+  ConnectionCallback                   connectionCallback_;
+  MessageCallback                      messageCallback_;
+  WriteCompleteCallback                writeCompleteCallback_;
+  ThreadInitCallback                   threadInitCallback_;
+  AtomicInt32                          started_;
   // always in loop thread
   int nextConnId_;
   ConnectionMap connections_;

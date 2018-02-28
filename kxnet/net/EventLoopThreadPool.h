@@ -44,12 +44,12 @@ class EventLoopThreadPool : noncopyable
  private:
 
   EventLoop* baseLoop_;
-  string name_;
-  bool started_;
-  int numThreads_;
-  int next_;
+  string     name_;
+  bool       started_;
+  int        numThreads_;
+  int        next_;
   std::vector<std::unique_ptr<EventLoopThread>> threads_;
-  std::vector<EventLoop*> loops_;
+  std::vector<EventLoop*>                       loops_;
 };
 
 }
